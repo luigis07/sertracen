@@ -1,0 +1,24 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+    </h:head>
+    <h:body style="text-align:center">
+        <p:growl id="mensajes" showDetail="true" life="2000" />
+        <h:form>
+            <p:panel header="Login" style="width: 350px; margin: 0 auto;">
+                <h:panelGrid columns="2" cellpadding="5">        
+                    <h:outputLabel for="username" value="Usuario:" />
+                    <p:inputText value="#{usuarioController.nombre}" id="username"
+                                 required="true" label="username" />
+                    <h:outputLabel for="password" value="Clave:" />
+                    <p:password value="#{usuarioController.clave}" id="password" required="true" label="password" />
+                    <f:facet name="footer">
+                        <p:commandButton id="loginButton" value="Login" actionListener="#{usuarioController.login}" update=":mensajes" />
+                    </f:facet>
+                </h:panelGrid>
+            </p:panel>
+        </h:form>
+    </h:body>
+</html>

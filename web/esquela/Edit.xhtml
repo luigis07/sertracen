@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EsquelaEditDlg" widgetVar="EsquelaEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditEsquelaTitle}">
+            <h:form id="EsquelaEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{esquelaController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditEsquelaLabel_idesquela}" for="idesquela" />
+                        <p:inputText id="idesquela" value="#{esquelaController.selected.idesquela}" title="#{bundle.EditEsquelaTitle_idesquela}" required="true" requiredMessage="#{bundle.EditEsquelaRequiredMessage_idesquela}"/>
+                        <p:outputLabel value="#{bundle.EditEsquelaLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{esquelaController.selected.descripcion}" title="#{bundle.EditEsquelaTitle_descripcion}" />
+                        <p:outputLabel value="#{bundle.EditEsquelaLabel_monto}" for="monto" />
+                        <p:inputText id="monto" value="#{esquelaController.selected.monto}" title="#{bundle.EditEsquelaTitle_monto}" />
+                        <p:outputLabel value="#{bundle.EditEsquelaLabel_aplica}" for="aplica" />
+                        <p:inputText id="aplica" value="#{esquelaController.selected.aplica}" title="#{bundle.EditEsquelaTitle_aplica}" />
+                        <p:outputLabel value="#{bundle.EditEsquelaLabel_idvehiculo}" for="idvehiculo" />
+                        <p:selectOneMenu id="idvehiculo" value="#{esquelaController.selected.idvehiculo}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{vehiculoController.itemsAvailableSelectOne}"
+                                           var="idvehiculoItem" itemLabel="#{idvehiculoItem.modelo} - #{idvehiculoItem.placa}"
+                                           itemValue="#{idvehiculoItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{esquelaController.update}" value="#{bundle.Save}" update="display,:EsquelaListForm:datalist,:growl" oncomplete="handleSubmit(args, 'EsquelaEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="EsquelaEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

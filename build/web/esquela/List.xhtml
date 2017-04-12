@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListEsquelaTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="EsquelaListForm">
+                <p:panel header="#{bundle.ListEsquelaTitle}">
+                    <p:dataTable id="datalist" value="#{esquelaController.items}" var="item"
+                                 selectionMode="single" selection="#{esquelaController.selected}"
+                                 paginator="true" paginatorPosition="bottom"
+                                 rowKey="#{item.idesquela}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 >
+                        <f:facet name="header">  
+                            <h:outputText value="Lista de Esquelas"/>
+                        </f:facet>
+                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton reportButton"/>
+                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton reportButton"/>
+
+                        <p:column filterBy="#{item.idesquela}">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEsquelaTitle_idesquela}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idesquela}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.descripcion}">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEsquelaTitle_descripcion}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.descripcion}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.monto}">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEsquelaTitle_monto}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.monto}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.aplica}">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEsquelaTitle_aplica}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.aplica}"/>
+                        </p:column>
+                        <p:column filterBy="#{item.idvehiculo.placa}">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEsquelaTitle_idvehiculo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idvehiculo.placa}"/>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{esquelaController.prepareCreate}" update=":EsquelaCreateForm" oncomplete="PF('EsquelaCreateDialog').show()"/>
+                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":EsquelaViewForm" oncomplete="PF('EsquelaViewDialog').show()" disabled="#{empty esquelaController.selected}"/>
+                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":EsquelaEditForm" oncomplete="PF('EsquelaEditDialog').show()" disabled="#{empty esquelaController.selected}"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{esquelaController.destroy}" update=":growl,datalist" disabled="#{empty esquelaController.selected}"/>
+                            <p:commandButton id="reportButton" value="Reporte" actionListener="#{esquelaController.generarReporte}" disabled="#{empty esquelaController.selected}"/>
+                        </f:facet>
+                    </p:dataTable>
+                    <h:commandLink>
+                        Exportar a PDF
+                        <p:dataExporter type="pdf" target="datalist" fileName="cars" pageOnly="true" />
+                    </h:commandLink>
+                </p:panel>
+            </h:form>
+
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="View.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>
